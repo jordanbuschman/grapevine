@@ -1,4 +1,4 @@
-package com.jar.hfth.grapevine;
+package com.jar.hfth.myapplication;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
@@ -105,6 +105,7 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section1),
                         getString(R.string.title_section2),
                         getString(R.string.title_section3),
+                        getString(R.string.title_section4),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;

@@ -1,4 +1,4 @@
-package com.jar.hfth.grapevine;
+package com.jar.hfth.myapplication;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
