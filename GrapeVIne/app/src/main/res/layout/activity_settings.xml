@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/grape_portrait">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Grape Vine Settings"
-        android:id="@+id/textView"
-        android:autoText="false"
-        android:textSize="24dp"
-        android:textStyle="bold" />
-
+        android:text="Create an Account"
+        android:id="@+id/create"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="55dp"
+        android:layout_centerHorizontal="true" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,5 +17,22 @@
         android:id="@+id/commit"
         android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Location"
+        android:id="@+id/location"
+        android:layout_gravity="bottom"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/commit"
+        android:layout_alignEnd="@+id/commit" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Location: "
+        android:id="@+id/textL"
+        android:layout_above="@+id/location"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
