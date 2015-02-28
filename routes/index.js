@@ -1,9 +1,28 @@
-var express = require('express');
+var express  = require('express');
+var debug    = require('debug')('grapevine:index.js');
+var User     = require('../models/user');
+
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
+});
+
+router.post('/register', function(req, res) {
+    var username = req.body.username;
+    var password = req.body.password;
+    var phoneNumber = req.body.phoneNumber;
+
+    User.register(new User({ username: username, phoneNumber: phoneNumber}), password, function (err, newUser) {
+        if (err) {
+            res.status(400);
+            return res.end(JSON.stringify({ err: err }) );
+        }
+        debug ('Added user ' + newUser.username + ' to users');
+        res.status(201);
+        return res.end(JSON.stringify({ status: '201', message: 'Created' }) );
+    });
 });
 
 //see any posts

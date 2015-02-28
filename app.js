@@ -4,10 +4,25 @@ var path         = require('path');
 var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
+var mongoose     = require('mongoose');
+var flash        = require('connect-flash');
+var debug        = require('debug')('grapevine:app.js');
 
 var routes = require('./routes/index');
 
 var app = express();
+
+//Database setup
+databaseUrl = 'mongodb://' + process.env.DB_USER_GV + ':' + process.env.DB_PASSWORD_GV + '@ds030817.mongolab.com:30817/grapevine';
+var db = mongoose.connection;
+db.on('error', console.error);
+
+mongoose.connect(databaseUrl, null, function(err) {
+    if (err)
+        debug(err);
+    else
+        debug('Connected to database.');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +38,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+
+app.use(flash());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
