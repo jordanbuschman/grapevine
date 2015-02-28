@@ -1,0 +1,8 @@
+<% layout('boilerplate') -%>
+<% block('title', 'Error - 404') %>
+
+<h1><%= message %></h1>
+<% if (error && error.status != undefined && error.stack != undefined) { %>
+    <h2><%= error.status %></h2>
+    <pre><%= error.stack %></pre>
+<% } %>
