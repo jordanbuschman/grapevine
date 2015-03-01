@@ -119,7 +119,6 @@ router.post('/submit' , function(req, res)
                 if (decoded._id == undefined) {
                     res.status(403).end('Forbidden: Invalid token');
                 }
-                console.log(decoded);
                 var phoneNumber = decoded.phoneNumber;
                 Post.create({ _location: loc, _grove: grove, _text: text, _phoneNumber: phoneNumber, _username: user}, function(err, post)
                 {
@@ -128,7 +127,6 @@ router.post('/submit' , function(req, res)
                         debug(err);
                         return res.status(400).end("Invalid post");
                     }
-                    console.log(post);
                     return res.status(201).end("Success!");
                 });
 
