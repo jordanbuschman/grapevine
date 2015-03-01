@@ -16,8 +16,6 @@ User.pre('save', function(next) {
     // generate a salt
     bcrypt.genSalt(10, function(err, salt) {
         if (err != undefined) return next(err);
-        console.log('SALT: ' + salt);
-        console.log('PHONENO: ' + user.phoneNumber);
           
             // hash the phoneNumber along with our new salt
         bcrypt.hash(user.phoneNumber, salt, function(err, hash) {

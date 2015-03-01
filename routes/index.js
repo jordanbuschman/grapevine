@@ -23,7 +23,6 @@ router.post('/register', function(req, res) {
     User.create({ username: username, phoneNumber: phoneNumber }, function(err, newUser) {
         if (err) {
             res.status(400);
-            console.log(err.stack);
             return res.end(JSON.stringify({ err: err }) );
         }
         debug ('Added user ' + newUser.username + ' to users');
@@ -177,10 +176,10 @@ router.post('/submit' , function(req, res)
     var grove = req.body.grove;
     var loc = req.body.loc;
     var token = req.body.token;
-	var user = req.body.user;
 	var title = req.body.title;
+    var phoneNumber = req.body.phoneNumber;
 
-    if(text == undefined || grove == undefined || loc == undefined || token == undefined || user == undefined || title ==  undefined)
+    if(text == undefined || grove == undefined || loc == undefined || token == undefined || phoneNumber == undefined || title ==  undefined)
     {
         res.status(400);
         return res.end("Could not retrieve text");
@@ -195,10 +194,10 @@ router.post('/submit' , function(req, res)
             }
             else {
                 if (decoded._id == undefined) {
-                    res.status(403).end('Forbidden: Invalid token');
+                    return res.status(403).end('Forbidden: Invalid token');
                 }
                 var username = decoded.username;
-                Post.create({ _location: loc, _grove: grove, _text: text, _username: username, _username: user, _title: title}, function(err, post)
+                Post.create({ _location: loc, _grove: grove, _text: text, _phoneNumber: phoneNumber, _username: username, _title: title}, function(err, post)
                 {
                     if (err)
                     {
