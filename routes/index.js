@@ -119,6 +119,62 @@ router.post('/submit' , function(req, res)
 	}
 });
 
+router.post('/comment' , function(req, res)
+{
+	var text = req.body.text;
+	var grape = req.body.grape;
+	var loc = req.body.loc;
+	var parentID = req.body.parentID;
+	var rootID = req.body.rootID;
+	var token = req.body.token;
+
+	if(text == undefined 
+		|| grape 	== undefined 
+		|| loc 		== undefined 
+		|| token	== undefined 
+		|| parentID 	== undefined
+		|| rootID	== undefined
+	)
+	{
+		res.status(400);
+		return res.end("Could not retrieve text");
+	}
+	else
+	{
+		jwt.verify(token, 'dontstealmygrapes', function(err, decoded) {
+			if (err) {
+				debug(err);
+				return res.status(400).end('you dun goofed');
+			}
+			else 
+			{
+				if (decoded._id == undefined) 
+				{
+					res.status(400).end('invalid token');
+				}
+
+				var userID = 
+					decoded._id;
+					Post.create({_parent: parentID, 
+					_root: rootID, _location: loc, 
+					_grape: grape, _text: text, 
+					_userID: userID}, 
+					function(err)
+					{
+						if (err)
+						{
+							debug(err);
+							return res.status(400).end("Invalid post");
+						}
+						
+						return res.status(201).end("Success!");
+					});
+
+			}
+		});
+	}
+});
+
 //see any posts
 //see comments
 //create posts
