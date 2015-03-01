@@ -102,8 +102,9 @@ router.post('/submit' , function(req, res)
     var loc = req.body.loc;
     var token = req.body.token;
 	var user = req.body.user;
+	var title = req.body.title;
 
-    if(text == undefined || grove == undefined || loc == undefined || token == undefined || user == undefined)
+    if(text == undefined || grove == undefined || loc == undefined || token == undefined || user == undefined || title ==  undefined)
     {
         res.status(400);
         return res.end("Could not retrieve text");
@@ -121,7 +122,7 @@ router.post('/submit' , function(req, res)
                     res.status(403).end('Forbidden: Invalid token');
                 }
                 var phoneNumber = decoded.phoneNumber;
-                Post.create({ _location: loc, _grove: grove, _text: text, _phoneNumber: phoneNumber, _username: user}, function(err, post)
+                Post.create({ _location: loc, _grove: grove, _text: text, _phoneNumber: phoneNumber, _username: user, _title: title}, function(err, post)
                 {
                     if (err)
                     {
