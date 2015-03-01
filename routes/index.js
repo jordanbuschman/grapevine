@@ -30,9 +30,17 @@ router.post('/register', function(req, res) {
 
 router.post('/nuke', function(req, res) {
     //DON'T POST HERE UNLESS YOU WANT TO DESTROY EVERYTHING
-    User.find({}).remove().exec();
-    Post.find({}).remove().exec();
-    res.status(200).end('Nuked!');
+    if (req.body.password == undefined) {
+        res.status(400).end('Bad request');
+    }
+
+    if (req.body.password == 'ahmedamer') {
+        User.find({}).remove().exec();
+        Post.find({}).remove().exec();
+        res.status(200).end('Nuked!');
+    }
+    else
+        res.status(200).end('Not nuked (bad password)');
 });
 
 router.post('/authenticate', passport.authenticate('local'), function(req, res) {
