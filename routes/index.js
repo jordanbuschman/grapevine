@@ -52,7 +52,7 @@ router.post('/location', function(rekt, res)
 	}
 	else
 	{
-		var time = Date.now();
+		var time = Date.now() - 86400000;
 
 		Post.find({"_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grape:grape}, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
 		{
@@ -63,6 +63,46 @@ router.post('/location', function(rekt, res)
 	}
 });
 
+router.post('/submit' , function(req, res)
+{
+	var text = req.body.text;
+	var grape = req.body.grape;
+	var loc = req.body.loc;
+	var token = req.body.token;
+
+	if(text == undefined || grape == undefined || loc == undefined || token == undefined)
+	{
+		res.status(400);
+		return res.end("Could not retrieve text");
+	}
+	
+	else
+	{
+		jwt.verify(token, 'dontstealmygrapes', function(err, decoded) {
+			if (err) {
+				debug(err);
+				return res.status(400).end('you dun goofed');
+			}
+			else {
+				if (decoded._id == undefined) {
+					res.status(400).end('invalid token');
+				}
+				var userID = decoded._id;
+				Post.create({ _location: loc, _grape: grape, _text: text, _userID: userID}, function(err)
+				{
+					if (err)
+					{
+						debug(err);
+						return res.status(400).end("Invalid post");
+					}
+					
+					return res.status(201).end("Success!");
+				});
+
+			}
+		});
+	}
+});
 
 //see any posts
 //see comments

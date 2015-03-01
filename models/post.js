@@ -3,15 +3,14 @@ var Schema                = mongoose.Schema;
 
 
 var Post = new Schema({
-	_id		: {type: String, required: true },
-	_parent		: {type: Schema.Types.ObjectId, ref: 'Post', required: true},
-	_root		: {type: Schema.Types.ObjectId, ref: 'Post', required: true},
-	_section	: {type: Number, required: true },
+	_parent		: {type: Schema.Types.ObjectId, ref: 'Post' },
+	_root		: {type: Schema.Types.ObjectId, ref: 'Post' },
 	_location	: {type: String, required: true },
 	_grape		: {type: Number, required: true },
 	_timestamp	: {type: Date, default: new Date() },
 	_text		: {type: String, required: true},
-	_views		: {type: Number, default: 0}
+	_views		: {type: Number, default: 0},
+	_userID		: {type: String, required: true },
 });
 
 
