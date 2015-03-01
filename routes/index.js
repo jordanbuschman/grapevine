@@ -88,7 +88,6 @@ router.post('/user', function(rekt, res)
 	    {
 			if (err)
 				debug(err);
-				console.log(posts);
 			return res.json(posts);
 	    });
     }
@@ -118,7 +117,7 @@ router.post('/post', function(rekt, res)
                     return res.status(400).end(err);
                 }
                 else if (parentPost == undefined)
-                    return res.status(400).end('Invalid post');
+                    return res.json([]);
                 else {
                     parentPost._views++;
                     parentPost.save(function(err) {
