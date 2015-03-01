@@ -4,7 +4,8 @@ var Schema                = mongoose.Schema;
 
 var User = new Schema({
     phoneNumber: { type: Number, required: true, unique: true},
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    vendor: { type: Boolean, default: false },
 });
 
 User.pre('save', function(next) {
