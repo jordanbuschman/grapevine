@@ -65,8 +65,11 @@ router.post('/changeUsername', function(req, res) {
                 debug(err);
                 return res.status(400).end('you dun goofed');
             }
+            if (decoded._id == undefined) {
+                return res.status(403).end('Forbidden: Invalid token'); 
             else {
-                res.status(200).JSON(decoded);
+                //TODO: validate here
+                res.status(200).json(decoded);
             }
         });
     }
@@ -78,8 +81,8 @@ router.post('/location', function(rekt, res)
     var grape = rekt.body.grape;
     if(loc == undefined || grape == undefined)
     {
-            res.status(400);
-            return res.end("bad request gtfo");
+        res.status(400);
+        return res.end("bad request gtfo");
     }
     else
     {
