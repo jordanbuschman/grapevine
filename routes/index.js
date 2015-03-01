@@ -13,11 +13,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
-    var username = req.body.username;
     var password = req.body.password;
     var phoneNumber = req.body.phoneNumber;
 
-    User.register(new User({ username: username, phoneNumber: phoneNumber}), password, function(err, newUser) {
+    User.register(new User({ phoneNumber: phoneNumber}), password, function(err, newUser) {
         if (err) {
             res.status(400);
             return res.end(JSON.stringify({ err: err }) );
