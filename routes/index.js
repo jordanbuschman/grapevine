@@ -57,7 +57,7 @@ router.post('/authenticate', passport.authenticate('local'), function(req, res) 
 
 router.post('/location', function(rekt, res)
 {
-    var loc = rekt.body.loc;
+    var loc = rekt.body.loc.replace(/['"]/g, '');
     var grape = rekt.body.grape;
     if(loc == undefined || grape == undefined)
     {
