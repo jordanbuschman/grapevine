@@ -10,9 +10,9 @@ var Post = new Schema({
 	_timestamp	 : {type: Date, default: new Date() },
 	_text		 : {type: String, required: true},
 	_views	 	 : {type: Number, default: 0},
-    _phoneNumber : {type: Number, required: true{,
+    _phoneNumber : {type: Number, required: true},
 	_username	 : {type: String },
 });
 
 
-module.exports = mongoose.model('Post', Post);;
+module.exports = mongoose.model('Post', Post);

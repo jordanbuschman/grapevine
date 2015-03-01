@@ -89,7 +89,7 @@ router.post('/location', function(rekt, res)
         {
             if (err)
                 debug(err);
-            return res.end(posts);
+            return res.json(posts);
         });
     }
 });
@@ -119,8 +119,9 @@ router.post('/submit' , function(req, res)
                 if (decoded._id == undefined) {
                     res.status(403).end('Forbidden: Invalid token');
                 }
-                var userID = decoded._id;
-                Post.create({ _location: loc, _grape: grape, _text: text, _userID: userID, _username: user}, function(err, post)
+                console.log(decoded);
+                var phoneNumber = decoded.phoneNumber;
+                Post.create({ _location: loc, _grape: grape, _text: text, _phoneNumber: phoneNumber, _username: user}, function(err, post)
                 {
                     if (err)
                     {
