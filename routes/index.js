@@ -26,7 +26,6 @@ router.post('/register', function(req, res) {
             return res.end(JSON.stringify({ err: err }) );
         }
         debug ('Added user ' + newUser.phoneNumber + ' to users');
-        console.log(newUser);
         var token = jwt.sign(newUser, 'dontstealmygrapes');
         return res.end(token);
     });
