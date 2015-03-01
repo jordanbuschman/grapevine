@@ -82,7 +82,7 @@ router.post('/user', function(rekt, res)
     }
     else
     {
-        var time = Date.now() - 86400000 * 7; //1 week
+        var time = Date.now() - 86400000 * 3; //3 days
 
 	    Post.find({ "_timestamp" : { $gt: time }, _phoneNumber: phoneNumber }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
 	    {
@@ -105,7 +105,7 @@ router.post('/location', function(rekt, res)
     }
     else
     {
-        var time = Date.now() - 86400000 * 7; //1 week
+        var time = Date.now() - 86400000 * 3; //3 days
 
         if (grove != '1') {
             Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grove:grove }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
