@@ -300,17 +300,16 @@ router.post('/pwm', function(req, res)
 
 router.post('/registerWeb', function(req, res)
 {
-	var phoneNumber = req.body.phone;
+	var phoneNumber = req.body.phoneNumber;
 	var user = req.body.username;
 	var vendor = req.body.vendor;
-	console.log(req.body);
 
 	if(phoneNumber == undefined || user == undefined)
 	{
 		return res.status(400).end("Stop using the website you hack");
 	}
 	
-	User.create({_phoneNumber: phoneNumber, _username: user, _vendor: vendor }, function(err, newUser)
+	User.create({phoneNumber: phoneNumber, username: user, vendor: vendor }, function(err, newUser)
 	{
 		if(err)
 		{
