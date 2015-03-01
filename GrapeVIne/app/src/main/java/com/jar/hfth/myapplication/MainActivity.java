@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -140,6 +141,10 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.title_section4);
                 preferences.edit().putInt("hubId", 4).commit();
                 break;
+            case 5:
+                mTitle = getString(R.string.title_section5);
+                preferences.edit().putInt("hubId", 5).commit();
+                break;
 
         }
 
@@ -178,10 +183,17 @@ public class MainActivity extends ActionBarActivity
             {
                 try {
                     //send data
+
                     result.put("loc", area);
                     List<NameValuePair> pairs = new ArrayList<NameValuePair>();
                     pairs.add(new BasicNameValuePair("loc", area));
                     pairs.add(new BasicNameValuePair("grove", Integer.toString(getHub)));
+                    TelephonyManager tMgr = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+                    String mPhoneNumber = tMgr.getLine1Number();
+                    if (getHub == 5) {
+                        post = new HttpPost("http://getgrapes.org/user");
+                        pairs.add(new BasicNameValuePair("phone",mPhoneNumber ));
+                    }
                     post.setEntity(new UrlEncodedFormEntity(pairs));
                     HttpResponse response = client.execute(post);
 
