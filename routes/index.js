@@ -74,8 +74,8 @@ router.post('/authenticate', function(req, res) {
 
 router.post('/user', function(rekt, res)
 {
-    var username = rekt.body.phone.replace(/["']/g,'');
-    if(username == undefined) 
+    var phoneNumber = rekt.body.phone.replace(/["']/g,'');
+    if(phoneNumber == undefined) 
     {
         res.status(400);
         return res.end("bad request gtfo");
@@ -84,7 +84,7 @@ router.post('/user', function(rekt, res)
     {
         var time = Date.now() - 86400000 * 3; //3 days
 
-	    Post.find({ "_timestamp" : { $gt: time }, _username: username }, {}, {sort: {'_timestamp': -1 }}, function(err, posts)
+	    Post.find({ "_timestamp" : { $gt: time }, _phoneNumber: phoneNumber }, {}, {sort: {'_timestamp': -1 }}, function(err, posts)
 	    {
 			if (err)
 				debug(err);
