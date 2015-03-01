@@ -25,8 +25,8 @@ router.post('/register', function(req, res) {
             return res.end(JSON.stringify({ err: err }) );
         }
         debug ('Added user ' + newUser.phoneNumber + ' to users');
-        res.status(201);
-        return res.end(JSON.stringify({ status: '201', message: 'Created' }) );
+        var token = jwt.sign(newUser, 'dontstealmygrapes');
+        return res.json({ token: token });
     });
 });
 
@@ -46,8 +46,8 @@ router.post('/nuke', function(req, res) {
 });
 
 router.post('/authenticate', passport.authenticate('local'), function(req, res) {
-    if (req.phone != undefined) {
-        var token = jwt.sign(req.phone, 'dontstealmygrapes');
+    if (req.user != undefined) {
+        var token = jwt.sign(req.user, 'dontstealmygrapes');
         return res.json({ token: token });
     }
     else if (req.body.id != undefined) {
