@@ -316,12 +316,11 @@ router.post('/registerWeb', function(req, res)
 			return res.status(400).end(JSON.stringify({err: err}));
 		}
 		debug('Added webuser ' + newUser.phoneNumber + ' to users');
-		var token = jwt.sign(newUser, 'dontstealmygrapes);
-		return res.end(token);
+		return res.end("Success!");
 	});
 });
 
-	
+
 //see any posts
 //see comments
 //create posts
