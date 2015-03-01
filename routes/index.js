@@ -77,7 +77,7 @@ router.post('/changeUsername', function(req, res) {
 
 router.post('/location', function(rekt, res)
 {
-    var loc = rekt.body.loc.replace(/['"]/g, '');
+    var loc = rekt.body.loc;
     var grape = rekt.body.grape;
     if(loc == undefined || grape == undefined)
     {
@@ -193,7 +193,7 @@ router.post('/comment' , function(req, res)
         });
     }
 });
-
+/*
 router.post('/pwm', function(req, res)
 {
 	var password = req.body.password;
@@ -220,7 +220,7 @@ router.post('/pwm', function(req, res)
 			}
 		});
 	}
-});
+});*/
 
 
 
