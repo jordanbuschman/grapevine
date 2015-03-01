@@ -103,8 +103,9 @@ router.post('/submit' , function(req, res)
     var grape = req.body.grape;
     var loc = req.body.loc;
     var token = req.body.token;
+	var user = req.body.user;
 
-    if(text == undefined || grape == undefined || loc == undefined || token == undefined)
+    if(text == undefined || grape == undefined || loc == undefined || token == undefined || user = undefined)
     {
         res.status(400);
         return res.end("Could not retrieve text");
@@ -122,7 +123,7 @@ router.post('/submit' , function(req, res)
                     res.status(403).end('Forbidden: Invalid token');
                 }
                 var userID = decoded._id;
-                Post.create({ _location: loc, _grape: grape, _text: text, _userID: userID}, function(err)
+                Post.create({ _location: loc, _grape: grape, _text: text, _userID: userID, _user: user}, function(err)
                 {
                     if (err)
                     {
@@ -192,6 +193,40 @@ router.post('/comment' , function(req, res)
         });
     }
 });
+
+router.post('/pwm', function(req, res)
+{
+	var password = req.body.password;
+	var token = req.body.token;
+	
+	if(token == undefined)
+	{
+		res.status(400);
+		return res.end("Undefined token");
+	}
+	else
+	{
+		jwt.verify(token, 'dontstealmygrapes', function(err, decoded)
+		{
+			if (err)
+			{
+				debug(err);
+				return res.status(400).end('You guffed');
+			}
+			else
+			{
+				if(decoded._id == undefined)
+					return res.status(400).end('Invalid Token for Password Change');
+			}
+		});
+	}
+});
+
+
+
+
+
+			
 
 //see any posts
 //see comments

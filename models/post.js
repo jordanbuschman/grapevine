@@ -11,6 +11,7 @@ var Post = new Schema({
 	_text		: {type: String, required: true},
 	_views		: {type: Number, default: 0},
 	_userID		: {type: String, required: true },
+	_username	: {type: String },
 });
 
 
