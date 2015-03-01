@@ -304,7 +304,7 @@ router.post('/registerWeb', function(req, res)
 	var user = req.body.username;
 	var vendor = req.body.vendor;
 
-	if(phoneNumber == undefined || user == undefined || vendor == undefined)
+	if(phoneNumber == undefined || user == undefined)
 	{
 		return res.status(400).end("Stop using the website you hack");
 	}
