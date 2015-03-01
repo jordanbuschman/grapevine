@@ -84,10 +84,11 @@ router.post('/user', function(rekt, res)
     {
         var time = Date.now() - 86400000 * 3; //3 days
 
-	    Post.find({ "_timestamp" : { $gt: time }, _phoneNumber: phoneNumber }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+	    Post.find({ "_timestamp" : { $gt: time }, _phoneNumber: phoneNumber }, {}, {sort: {'_views': -1, '_timestamp': -1 }}, function(err, posts)
 	    {
 			if (err)
 				debug(err);
+            console.log(posts);
 			return res.json(posts);
 	    });
     }
@@ -105,7 +106,7 @@ router.post('/post', function(rekt, res)
     {
         var time = Date.now() - 86400000 * 3; //3 days
 
-        Post.find({ "_timestamp" : { $gt: time }, _parent: id }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+        Post.find({ "_timestamp" : { $gt: time }, _parent: id }, {}, {sort: {'_views': -1, '_timestamp': -1 }}, function(err, posts)
         {
             if (err) {
                 debug(err);
@@ -125,6 +126,7 @@ router.post('/post', function(rekt, res)
                             debug(err);
                             return res.status(400).end(err);
                         }
+                        console.log(posts);
                         return res.json(posts);
                     });
                 }
@@ -147,18 +149,21 @@ router.post('/location', function(rekt, res)
         var time = Date.now() - 86400000 * 3; //3 days
 
         if (grove != '1') {
-            Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grove:grove }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+            //TODO: Sorting algorithm linking views and timestamp
+            Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grove:grove }, {}, {sort: {'_views': -1, '_timestamp': -1}}, function(err, posts)
             {
                 if (err)
                     debug(err);
+                console.log(posts);
                 return res.json(posts);
             });
         }
         else {
-            Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+            Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc }, {}, {sort: {'_views': -1, '_timestamp': -1 }}, function(err, posts)
             {
                 if (err)
                     debug(err);
+                console.log(posts);
                 return res.json(posts);
             });
         }
