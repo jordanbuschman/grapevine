@@ -27,18 +27,11 @@ mongoose.connect(databaseUrl, null, function(err) {
         debug('Connected to database.');
 });
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
 app.use(passport.initialize());
-// use static authenticate method of model in LocalStrategy
-passport.use(User.createStrategy());
-
-// use static serialize and deserialize of model for passport session support
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
