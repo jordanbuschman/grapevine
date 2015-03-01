@@ -84,7 +84,7 @@ router.post('/user', function(rekt, res)
     {
         var time = Date.now() - 86400000 * 3; //3 days
 
-	    Post.find({ "_timestamp" : { $gt: time }, _username: username }, {}, {sort: {'_views': -1, '_timestamp': -1 }}, function(err, posts)
+	    Post.find({ "_timestamp" : { $gt: time }, _username: username }, {}, {sort: {'_timestamp': -1 }}, function(err, posts)
 	    {
 			if (err)
 				debug(err);
