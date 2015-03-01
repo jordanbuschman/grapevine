@@ -25,14 +25,16 @@
         android:id="@+id/location"
         android:layout_gravity="bottom"
         android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/commit"
-        android:layout_alignEnd="@+id/commit" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your Location: "
         android:id="@+id/textL"
+        android:textSize="15dp"
         android:layout_above="@+id/location"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#ff000000"
+        android:background="#b179ad4b"/>
 </RelativeLayout>
