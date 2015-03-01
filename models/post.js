@@ -8,6 +8,7 @@ var Post = new Schema({
 	_root		: {type: Schema.Types.ObjectId, ref: 'Post', required: true},
 	_section	: {type: Number, required: true },
 	_location	: {type: String, required: true },
+	_grape		: {type: Number, required: true },
 	_timestamp	: {type: Date, default: new Date() },
 	_text		: {type: String, required: true},
 	_views		: {type: Number, default: 0}

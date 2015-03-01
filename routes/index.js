@@ -43,8 +43,9 @@ router.post('/authenticate', passport.authenticate('local'), function(req, res) 
 
 router.post('/location', function(rekt, res)
 {
-	var location = rekt.body.location;
-	if(location == undefined)
+	var loc = rekt.body.loc;
+	var grape = rekt.body.grape;
+	if(loc == undefined || grape == undefined)
 	{
             res.status(400);
             return res.end("bad request gtfo");
@@ -53,7 +54,7 @@ router.post('/location', function(rekt, res)
 	{
 		var time = Date.now();
 
-		Post.find({"_timestamp" : { $gt: time }, _parent: undefined }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+		Post.find({"_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grape:grape}, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
 		{
 			if (err)
 				debug(err);
