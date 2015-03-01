@@ -89,6 +89,7 @@ router.post('/location', function(rekt, res)
         {
             if (err)
                 debug(err);
+            console.log(posts);
             return res.json(posts);
         });
     }
