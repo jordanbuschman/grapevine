@@ -20,12 +20,13 @@ router.post('/register', function(req, res) {
     if (phoneNumber == undefined || password == undefined)
         return res.status(400).end('Bad request');
 
-    User.register(new User({ phoneNumber: phoneNumber}), password, function(err, newUser) {
+    User.create({ phoneNumber: phoneNumber, password: password }, function(err, newUser) {
         if (err) {
             res.status(400);
             return res.end(JSON.stringify({ err: err }) );
         }
         debug ('Added user ' + newUser.phoneNumber + ' to users');
+        console.log(newUser);
         var token = jwt.sign(newUser, 'dontstealmygrapes');
         return res.end(token);
     });
@@ -45,14 +46,31 @@ router.post('/nuke', function(req, res) {
         res.status(200).end('Not nuked (bad password)');
 });
 
-router.post('/authenticate', passport.authenticate('local'), function(req, res) {
-    if (req.user != undefined) {
-        var token = jwt.sign(req.user, 'dontstealmygrapes');
-        return res.end(token);
-    }
-    else {
-        return res.send(401, 'Invalid username or password');
-    }
+router.post('/authenticate', function(req, res) {
+    if (req.body.phoneNumber == undefined || req.body.password == undefined)
+        return res.status(400).end('Bad request');
+
+    User.findOne({ phoneNumber: req.body.phoneNumber }, function(err, user) {
+        if (err) {
+            debug(err);
+            res.status(400).end(err);
+        }
+        else if (!user) {
+            res.status(401).end('Invalid username or password');
+        }
+        else {
+            user.comparePassword(req.body.password, function(err, authenticated) {
+                if (err) {
+                    debug(err);
+                    res.status(400).end(err);
+                }
+                else {
+                    var token = jwt.sign(user, 'dontstealmygrapes');
+                    return res.end(token);
+                }
+            });
+        }
+    });
 });
 
 router.post('/changeUsername', function(req, res) {
@@ -93,7 +111,7 @@ router.post('/location', function(rekt, res)
         {
             if (err)
                 debug(err);
-            return res.json({posts:posts});
+            return res.end(posts);
         });
     }
 });
