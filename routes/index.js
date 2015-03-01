@@ -13,15 +13,18 @@ router.get('/', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
-    var password = req.body.password;
     var phoneNumber = req.body.phoneNumber;
+    var password = req.body.password;
+
+    if (phoneNumber == undefined || password == undefined)
+        return res.status(400).end('Bad request');
 
     User.register(new User({ phoneNumber: phoneNumber}), password, function(err, newUser) {
         if (err) {
             res.status(400);
             return res.end(JSON.stringify({ err: err }) );
         }
-        debug ('Added user ' + newUser.username + ' to users');
+        debug ('Added user ' + newUser.phoneNumber + ' to users');
         res.status(201);
         return res.end(JSON.stringify({ status: '201', message: 'Created' }) );
     });

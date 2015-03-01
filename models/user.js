@@ -3,10 +3,9 @@ var Schema                = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var User = new Schema({
-    phoneNumber: String
+    usernameField: 'phoneNumber',
+    username: { Type: String, unique: true }
 });
-
-User.set('redisCache', true);
 
 User.plugin(passportLocalMongoose);
 
