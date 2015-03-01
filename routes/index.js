@@ -72,6 +72,28 @@ router.post('/authenticate', function(req, res) {
     });
 });
 
+router.post('/user', function(rekt, res)
+{
+    var phoneNumber = rekt.body.phone.replace(/["']/g,'');
+    if(phoneNumber == undefined) 
+    {
+        res.status(400);
+        return res.end("bad request gtfo");
+    }
+    else
+    {
+        var time = Date.now() - 86400000 * 7; //1 week
+
+	    Post.find({ "_timestamp" : { $gt: time }, _phoneNumber: phoneNumber }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+	    {
+			if (err)
+				debug(err);
+				console.log(posts);
+			return res.json(posts);
+	    });
+    }
+});
+
 router.post('/location', function(rekt, res)
 {
     var loc = rekt.body.loc.replace(/["']/g,'');
