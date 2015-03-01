@@ -16,10 +16,12 @@
 
 <!-- form Div -->
 <div id="content">
-	<form name="login" action="login.html" method="post" enctype="multipart/form-data" onsubmit= "return checkvalue();">
-  	Name (first and Last): <input type="text" name="name"/>
- 	Password: <input type="password" name="password"/>
+	<form name="login" action="/registerWeb" method="post" enctype="multipart/form-data" onsubmit= "return checkvalue();">
+  	<!--Name (first and Last): <input type="text" name="name"/>-->
  	Phone Number(no spaces or dashes): <input type="text" name="phone"> 
+	<br/>
+ 	Username: <input type="text" name="username"/>
+	Are you a vendor? <input type="checkbox" name="vendor"/>
   <input type="submit"/>
   </form>
 <div>  

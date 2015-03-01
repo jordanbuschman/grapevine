@@ -299,6 +299,30 @@ router.post('/pwm', function(req, res)
 	}
 });
 
+router.post('/registerWeb', function(req, res)
+{
+	var phoneNumber = req.body.phone;
+	var user = req.body.username;
+	var vendor = req.body.vendor;
+
+	if(phoneNumber == undefined || user == undefined || vendor == undefined)
+	{
+		return res.status(400).end("Stop using the website you hack");
+	}
+	
+	User.create({_phoneNumber: phoneNumber, _username: user, _vendor: vendor }, function(err, newUser)
+	{
+		if(err)
+		{
+			return res.status(400).end(JSON.stringify({err: err}));
+		}
+		debug('Added webuser ' + newUser.phoneNumber + ' to users');
+		var token = jwt.sign(newUser, 'dontstealmygrapes);
+		return res.end(token);
+	});
+});
+
+	
 //see any posts
 //see comments
 //create posts
