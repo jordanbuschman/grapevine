@@ -194,7 +194,9 @@ router.post('/comment' , function(req, res)
         });
     }
 });
-/*
+
+
+
 router.post('/pwm', function(req, res)
 {
 	var password = req.body.password;
@@ -218,16 +220,12 @@ router.post('/pwm', function(req, res)
 			{
 				if(decoded._id == undefined)
 					return res.status(400).end('Invalid Token for Password Change');
+
+				//Set up twilio and text characters to phone
 			}
 		});
 	}
-});*/
-
-
-
-
-
-			
+});
 
 //see any posts
 //see comments
