@@ -85,21 +85,19 @@ router.post('/location', function(rekt, res)
     {
         var time = Date.now() - 86400000 * 7; //1 week
 
-        if (loc != 1) {
-            Post.find({ /*"_timestamp" : { $gt: time },*/ _parent: undefined, _location: loc, _grove:grove }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+        if (grove != '1') {
+            Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grove:grove }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
             {
                 if (err)
                     debug(err);
-                console.log(posts);
                 return res.json(posts);
             });
         }
         else {
-            Post.find({ /*"_timestamp" : { $gt: time },*/ _parent: undefined, _grove:grove }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+            Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
             {
                 if (err)
                     debug(err);
-                console.log(posts);
                 return res.json(posts);
             });
         }

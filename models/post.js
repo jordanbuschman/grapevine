@@ -16,9 +16,10 @@ var Post = new Schema({
 });
 
 Post.pre('save', function(next) {
-    now = new Date();
-    if (!this._timestamp) {
+    now = new Date().getTime();
+    if (this._timestamp == undefined) {
         this._timestamp = now;
+        console.log(this._timestamp);
     }
     next();
 });
