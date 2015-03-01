@@ -7,13 +7,20 @@ var Post = new Schema({
 	_root		 : {type: Schema.Types.ObjectId, ref: 'Post' },
 	_location	 : {type: String, required: true },
 	_grove		 : {type: Number, required: true },
-	_timestamp	 : {type: Number, default: new Date.now() },
+	_timestamp	 : {type: Number},
 	_text		 : {type: String, required: true},
 	_title		 : {type: String},
 	_views	 	 : {type: Number, default: 0},
-    	_phoneNumber 	 : {type: String, required: true},
+    _phoneNumber : {type: String, required: true},
 	_username	 : {type: String },
 });
 
+Post.pre('save', function(next) {
+    now = new Date();
+    if (!this._timestamp) {
+        this._timestamp = now;
+    }
+    next();
+});
 
 module.exports = mongoose.model('Post', Post);
