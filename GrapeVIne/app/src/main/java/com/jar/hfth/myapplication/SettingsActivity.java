@@ -60,7 +60,7 @@ public class SettingsActivity extends ActionBarActivity {
             if (local.equals("null"))
                 textView.setText("Please update location");
             else
-                textView.setText(local);
+                textView.setText("Your location is: " + local);
 
 
            //Settings Button on click listener
@@ -82,7 +82,7 @@ public class SettingsActivity extends ActionBarActivity {
             account.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent account = new Intent(SettingsActivity.this, AccountActivity.class);
+                    Intent account = new Intent(SettingsActivity.this, AuthenticateActivity.class);
                     startActivity(account);
 
                 }
@@ -110,10 +110,10 @@ public class SettingsActivity extends ActionBarActivity {
 
                           //set the text view to update
                            TextView textView = (TextView) findViewById(R.id.textL);
-                           textView.setText(stateName);
+                           textView.setText("Your location is: "+stateName);
 
                            //toast notification
-                           Toast.makeText(getApplicationContext(), "Your Location is "+ stateName , Toast.LENGTH_SHORT).show();
+                           Toast.makeText(getApplicationContext(), "Your location is: "+ stateName , Toast.LENGTH_SHORT).show();
 
                           //send the data to back end
 

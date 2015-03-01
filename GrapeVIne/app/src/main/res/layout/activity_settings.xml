@@ -5,7 +5,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create an Account"
+        android:text="Register an Account"
         android:id="@+id/create"
         android:layout_gravity="bottom"
         android:layout_marginTop="55dp"
