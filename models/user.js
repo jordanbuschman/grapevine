@@ -3,12 +3,12 @@ var Schema                = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var User = new Schema({
-    phoneNumber: String
+    username: String
 });
 
-User.set('redisCache', true);
-
-User.plugin(passportLocalMongoose);
+User.plugin(passportLocalMongoose, {
+    usernameField: 'phoneNumber'
+});
 
 User.path('phoneNumber').validate(function (phoneNumber) {
     if (phoneNumber == undefined)
@@ -16,6 +16,6 @@ User.path('phoneNumber').validate(function (phoneNumber) {
 
     var regex = /^\d{10}$/
     return regex.test(phoneNumber);
-}, 'Phone number must be in format 123-456-7890.')
+}, 'Phone number must be in format 1234567890.')
 
 module.exports = mongoose.model('User', User);

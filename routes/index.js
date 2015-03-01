@@ -3,7 +3,8 @@ var passport = require('passport');
 var jwt      = require('jsonwebtoken');
 var debug    = require('debug')('grapevine:index.js');
 var User     = require('../models/user');
-var Post     = require('../models/post');
+var Post	 = require('../models/post');
+var mongoose = require('mongoose');
 
 var router = express.Router();
 
@@ -13,18 +14,20 @@ router.get('/', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
-    var username = req.body.username;
-    var password = req.body.password;
     var phoneNumber = req.body.phoneNumber;
+    var password = req.body.password;
 
-    User.register(new User({ username: username, phoneNumber: phoneNumber}), password, function(err, newUser) {
+    if (phoneNumber == undefined || password == undefined)
+        return res.status(400).end('Bad request');
+
+    User.register(new User({ phoneNumber: phoneNumber}), password, function(err, newUser) {
         if (err) {
             res.status(400);
             return res.end(JSON.stringify({ err: err }) );
         }
-        debug ('Added user ' + newUser.username + ' to users');
-        res.status(201);
-        return res.end(JSON.stringify({ status: '201', message: 'Created' }) );
+        debug ('Added user ' + newUser.phoneNumber + ' to users');
+        var token = jwt.sign(newUser, 'dontstealmygrapes');
+        return res.end(token);
     });
 });
 
@@ -35,8 +38,7 @@ router.post('/nuke', function(req, res) {
     }
 
     if (req.body.password == 'ahmedamer') {
-        User.find({}).remove().exec();
-        Post.find({}).remove().exec();
+        mongoose.connection.db.dropDatabase(function(err, done) {});
         res.status(200).end('Nuked!');
     }
     else
@@ -46,10 +48,7 @@ router.post('/nuke', function(req, res) {
 router.post('/authenticate', passport.authenticate('local'), function(req, res) {
     if (req.user != undefined) {
         var token = jwt.sign(req.user, 'dontstealmygrapes');
-        return res.json({ token: token });
-    }
-    else if (req.body.id != undefined) {
-        //TODO: Homeless person id authentication
+        return res.end(token);
     }
     else {
         return res.send(401, 'Invalid username or password');
