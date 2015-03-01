@@ -303,6 +303,7 @@ router.post('/registerWeb', function(req, res)
 	var phoneNumber = req.body.phone;
 	var user = req.body.username;
 	var vendor = req.body.vendor;
+	console.log(req.body);
 
 	if(phoneNumber == undefined || user == undefined)
 	{

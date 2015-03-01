@@ -16,13 +16,15 @@
 
 <!-- form Div -->
 <div id="content">
-	<form name="login" action="/registerWeb" method="post" enctype="multipart/form-data" onsubmit= "return checkvalue();">
+	<form name="login" action="/registerWeb" method="post">
   	<!--Name (first and Last): <input type="text" name="name"/>-->
- 	Phone Number(no spaces or dashes): <input type="text" name="phone"> 
+ 	Phone Number(no spaces or dashes): <input type="text" id="phone" name="phone"> 
 	<br/>
- 	Username: <input type="text" name="username"/>
-	Are you a vendor? <input type="checkbox" name="vendor"/>
-  <input type="submit"/>
+ 	Username: <input type="text" id='username' name="username">
+	Are you a vendor? <input type="checkbox" id="vendor" name="vendor">
+  <input type="submit">
   </form>
-<div>  
+</div>  
+</body>
+</html>
 
