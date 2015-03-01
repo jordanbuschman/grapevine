@@ -82,7 +82,8 @@ public class SettingsActivity extends ActionBarActivity {
             account.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent account = new Intent(SettingsActivity.this, AuthenticateActivity.class);
+                    Intent account = new Intent(SettingsActivity.this, MainActivity.class);
+                    getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("firstrun", true).commit();
                     startActivity(account);
 
                 }
@@ -113,11 +114,14 @@ public class SettingsActivity extends ActionBarActivity {
                            textView.setText("Your location is: "+stateName);
 
                            //toast notification
-                           Toast.makeText(getApplicationContext(), "Your location is: "+ stateName , Toast.LENGTH_SHORT).show();
+                           Toast.makeText(getApplicationContext(), "Now showing posts from: \n"+ stateName , Toast.LENGTH_SHORT).show();
 
                           //send the data to back end
 
                            preferences.edit().putString("Location", stateName).commit();
+                           Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+
+                           startActivity(intent);
 
                        }catch(IOException ex) {
                            ex.printStackTrace();

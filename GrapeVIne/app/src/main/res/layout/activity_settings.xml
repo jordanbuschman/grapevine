@@ -5,10 +5,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register an Account"
+        android:text="Delete your account"
         android:id="@+id/create"
         android:layout_gravity="bottom"
-        android:layout_marginTop="55dp"
+        android:layout_above="@+id/location"
         android:layout_centerHorizontal="true" />
     <Button
         android:layout_width="wrap_content"
@@ -16,8 +16,9 @@
         android:text="Save Changes"
         android:id="@+id/commit"
         android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/textL"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,11 +31,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:ellipsize="start"
+        android:gravity="center"
         android:text="Your Location: "
         android:id="@+id/textL"
         android:textSize="15dp"
-        android:layout_above="@+id/location"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_vertical"
         android:textColor="#ff000000"
-        android:background="#b179ad4b"/>
+        android:layout_below="@+id/location"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:ellipsize="start"
+        android:gravity="left"
+        android:paddingLeft="30dp"
+        android:text="Settings"
+        android:id="@+id/textLP"
+        android:textSize="27dp"
+        android:layout_gravity="center_vertical"
+        android:textColor="#ff000000"
+        android:layout_marginTop="65dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

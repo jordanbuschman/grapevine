@@ -51,8 +51,8 @@ public class DetailActivity extends ActionBarActivity {
             TextView Views = (TextView) findViewById(R.id.views);
             Button button = (Button) findViewById(R.id.sendText);
 
-            Title.setText("Post Title: " +title);
-            Text.setText("Post \n" +text);
+            Title.setText("Title: " +title);
+            Text.setText("Post\n" +text);
             User.setText("User: " +user);
             Views.setText("Views: " + views);
 

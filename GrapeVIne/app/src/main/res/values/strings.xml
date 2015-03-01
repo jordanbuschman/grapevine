@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Grape Vine</string>
 
-    <string name="title_section1">All Hubs</string>
+    <string name="title_section1">All Groves</string>
     <string name="title_section2">Food</string>
     <string name="title_section3">Shelter</string>
     <string name="title_section4">Favors</string>

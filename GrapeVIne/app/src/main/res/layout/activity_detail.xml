@@ -12,7 +12,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#ff000000"
-        android:background="#b179ad4b"/>
+        android:textStyle="italic"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:textSize="22dp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +27,11 @@
         android:layout_below="@+id/views"
         android:layout_centerHorizontal="true"
         android:textColor="#ff000000"
-        android:background="#b179ad4b"/>
+        android:textStyle="italic"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:background="#80ffffff"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,7 +43,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#ff000000"
-        android:background="#b179ad4b"/>
+        android:textStyle="italic"
+        android:ellipsize="start"
+        android:gravity="center"
+
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,7 +58,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#ff000000"
-        android:background="#b179ad4b"/>
+        android:textStyle="italic"
+        android:ellipsize="start"
+        android:gravity="center"
+
+      />
 
     <Button
         android:layout_width="wrap_content"

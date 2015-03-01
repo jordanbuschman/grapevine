@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -138,11 +139,14 @@ public class AddActivity extends ActionBarActivity{
                 try {
 
                     List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+                    TelephonyManager tMgr = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+                    String mPhoneNumber = tMgr.getLine1Number();
+                    pairs.add(new BasicNameValuePair("phoneNumber", mPhoneNumber));
                     pairs.add(new BasicNameValuePair("text", post.getText().toString()));
                     pairs.add(new BasicNameValuePair("grove", Integer.toString(grapez) ));
                     pairs.add(new BasicNameValuePair("loc", preferences.getString("Location", "null") ));
                     pairs.add(new BasicNameValuePair("token", preferences.getString("Key", "null")));
-                    pairs.add(new BasicNameValuePair("user", preferences.getString("User", "null")));
+                   // pairs.add(new BasicNameValuePair("user", preferences.getString("User", "null")));
                     pairs.add(new BasicNameValuePair("title", title.getText().toString()));
                     posting.setEntity(new UrlEncodedFormEntity(pairs));
                     HttpResponse response = client.execute(posting);

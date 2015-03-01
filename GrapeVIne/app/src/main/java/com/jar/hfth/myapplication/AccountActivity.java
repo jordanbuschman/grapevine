@@ -20,7 +20,7 @@ public class AccountActivity extends ActionBarActivity {
 
         final Button button = (Button) findViewById(R.id.button);
         final EditText post = (EditText) findViewById(R.id.editText);
-        final EditText number = (EditText) findViewById(R.id.editText2);
+      //  final EditText number = (EditText) findViewById(R.id.editText2);
         final Spinner grapes = (Spinner) findViewById(R.id.spinner);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

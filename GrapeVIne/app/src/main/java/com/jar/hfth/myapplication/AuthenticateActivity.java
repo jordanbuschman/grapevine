@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,14 +49,14 @@ public class AuthenticateActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticate);
         setTitle("Authenticate");
-        final EditText number = (EditText) findViewById(R.id.editText1);
-        final EditText password = (EditText) findViewById(R.id.editText2);
+       // final EditText number = (EditText) findViewById(R.id.editText1);
+       // final EditText password = (EditText) findViewById(R.id.editText2);
         final Button button = (Button) findViewById(R.id.button2);
         final EditText name = (EditText) findViewById(R.id.username);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+/*
                 if(number.getText().length() != 10){
                     // Use the Builder class for convenient dialog construction
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -86,9 +87,9 @@ public class AuthenticateActivity extends ActionBarActivity {
                     // Create the AlertDialog object and return it
                     setter.show();
 
-                }
+                } */
                 //no user name specified
-                else if(name.getText().length() == 0){
+                 if(name.getText().length() == 0){
                     AlertDialog.Builder setter = new AlertDialog.Builder(context);
                     setter.setTitle("Username error");
                     setter.setMessage("Please enter a valid user name")
@@ -109,8 +110,11 @@ public class AuthenticateActivity extends ActionBarActivity {
                     try {
 
                         List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-                        pairs.add(new BasicNameValuePair("phoneNumber", number.getText().toString()));
-                        pairs.add(new BasicNameValuePair("password", password.getText().toString()));
+                        TelephonyManager tMgr = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+                        String mPhoneNumber = tMgr.getLine1Number();
+                        pairs.add(new BasicNameValuePair("phoneNumber", mPhoneNumber));
+                        pairs.add(new BasicNameValuePair("username", name.getText().toString()));
+                        //pairs.add(new BasicNameValuePair("password", password.getText().toString()));
                         post.setEntity(new UrlEncodedFormEntity(pairs));
                         HttpResponse response = client.execute(post);
                         String t = EntityUtils.toString(response.getEntity());
