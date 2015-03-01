@@ -22,7 +22,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,8 +59,8 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
     Context context = this;
     DefaultHttpClient client = new DefaultHttpClient();
-    HttpPost post = new HttpPost("172.16.21.81:3000");
-   // HttpPost post = new HttpPost("http://getgrapes.org/location");
+   // HttpPost post = new HttpPost("172.16.21.81:3000");
+    HttpPost post = new HttpPost("http://getgrapes.org/location");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,12 +176,54 @@ public class MainActivity extends ActionBarActivity
             } else
             {
                 try {
+                    //send data
                     result.put("loc", area);
                     List<NameValuePair> pairs = new ArrayList<NameValuePair>();
                     pairs.add(new BasicNameValuePair("loc", area));
-                    pairs.add(new BasicNameValuePair("grape", Integer.toString(getHub)));
+                    pairs.add(new BasicNameValuePair("grove", Integer.toString(getHub)));
                     post.setEntity(new UrlEncodedFormEntity(pairs));
                     HttpResponse response = client.execute(post);
+
+                    //receive data
+                    String t = EntityUtils.toString(response.getEntity());
+                    JSONArray info = new JSONArray(t);
+                    final List<Posts> topic = new ArrayList<>();
+                    for (int i = 0; i < info.length(); i++)
+                    {
+                        //get info from JSON objects
+                        JSONObject object = info.getJSONObject(i);
+                        long date = object.getLong("_timestamp");
+                        String text = object.getString("_text");
+                        int views = object.getInt("_views");
+                        String phone = object.getString("_phoneNumber");
+                        String user = object.getString("_username");
+                        String title = object.getString("_title");
+
+                        //put data into listview
+                        //Posts(long date, String text, int views, String phone, String user)
+                        topic.add(new Posts(date, text, views, phone ,user, title));
+                    }
+                    ListView listView = (ListView) findViewById(R.id.listView);
+                    listView.setAdapter(new PostAdapter(this, R.layout.activity_list_single, topic));
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Posts post = topic.get(position);
+                            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                            intent.putExtra("date", post.getDate());
+                            intent.putExtra("text", post.getText());
+                            intent.putExtra("views", post.getViews());
+                            intent.putExtra("phone", post.getPhone());
+                            intent.putExtra("user", post.getUser());
+                            intent.putExtra("title", post.getTitle());
+                            startActivity(intent);
+
+                        }
+                    });
+
+
+
+
                 }catch(JSONException e){
                     //throw new RuntimeException(e);
                     Toast.makeText(getApplicationContext(), "cannot communicate with server", Toast.LENGTH_SHORT).show();

@@ -52,6 +52,7 @@ public class AddActivity extends ActionBarActivity{
 
         final Button button = (Button) findViewById(R.id.button);
         final EditText post = (EditText) findViewById(R.id.editText);
+        final EditText title = (EditText) findViewById(R.id.title);
 
 
         grapes = (Spinner) findViewById(R.id.spinner);
@@ -68,6 +69,30 @@ public class AddActivity extends ActionBarActivity{
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("No post found");
                     builder.setMessage("Please enter a post")
+                            .setPositiveButton("update", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                }
+                            })
+                            .setNegativeButton("not now", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User cancelled the dialog
+                                    Intent intent = new Intent(AddActivity.this, MainActivity.class);
+
+                                    startActivity(intent);
+                                }
+                            });
+                    // Create the AlertDialog object and return it
+                    builder.show();
+
+                }
+
+                //no Title Written
+                else if(title.getText().length() == 0){
+                    // Use the Builder class for convenient dialog construction
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("No title found");
+                    builder.setMessage("Please enter a title for your post")
                             .setPositiveButton("update", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
 
@@ -114,10 +139,11 @@ public class AddActivity extends ActionBarActivity{
 
                     List<NameValuePair> pairs = new ArrayList<NameValuePair>();
                     pairs.add(new BasicNameValuePair("text", post.getText().toString()));
-                    pairs.add(new BasicNameValuePair("grape", Integer.toString(grapez) ));
+                    pairs.add(new BasicNameValuePair("grove", Integer.toString(grapez) ));
                     pairs.add(new BasicNameValuePair("loc", preferences.getString("Location", "null") ));
                     pairs.add(new BasicNameValuePair("token", preferences.getString("Key", "null")));
                     pairs.add(new BasicNameValuePair("user", preferences.getString("User", "null")));
+                    pairs.add(new BasicNameValuePair("title", title.getText().toString()));
                     posting.setEntity(new UrlEncodedFormEntity(pairs));
                     HttpResponse response = client.execute(posting);
                  
