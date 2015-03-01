@@ -88,7 +88,7 @@ router.post('/location', function(rekt, res)
     {
         var time = Date.now() - 86400000;
 
-        Post.find({"_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grape:grape}, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+        Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grape:grape }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
         {
             if (err)
                 debug(err);
@@ -149,9 +149,9 @@ router.post('/comment' , function(req, res)
 
     if(text == undefined 
         || grape     == undefined 
-        || loc         == undefined 
-        || token    == undefined 
-        || parentID     == undefined
+        || loc       == undefined 
+        || token     == undefined 
+        || parentID  == undefined
         || rootID    == undefined
     )
     {
@@ -172,9 +172,8 @@ router.post('/comment' , function(req, res)
                     res.status(400).end('invalid token');
                 }
 
-                var userID = 
-                    decoded._id;
-                    Post.create({_parent: parentID, 
+                var userID = decoded._id;
+                Post.create({_parent: parentID, 
                     _root: rootID, _location: loc, 
                     _grape: grape, _text: text, 
                     _userID: userID}, 
