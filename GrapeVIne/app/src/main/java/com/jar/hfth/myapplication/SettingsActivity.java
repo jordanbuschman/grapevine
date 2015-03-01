@@ -1,11 +1,14 @@
 package com.jar.hfth.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +39,8 @@ public class SettingsActivity extends ActionBarActivity {
 
     GPSTracker gps;
     DefaultHttpClient client = new DefaultHttpClient();
-    HttpPost post = new HttpPost("http://getgrapes.org");
+    HttpPost post = new HttpPost("http://getgrapes.org/location");
+    Context context = this;
 
     public void enableStrictMode()
     {
@@ -47,93 +51,86 @@ public class SettingsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        setTitle("Settings");
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_settings);
+            setTitle("Settings");
+            TextView textView = (TextView) findViewById(R.id.textL);
+            String local = preferences.getString("Location", "null");
+            if (local.equals("null"))
+                textView.setText("Please update location");
+            else
+                textView.setText(local);
 
-       //Settings Button on click listener
-        Button button = (Button) findViewById(R.id.commit);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(SettingsActivity.this,
-                        "Settings Saved",
-                        Toast.LENGTH_SHORT).show();
 
-                Intent goBack = new Intent(SettingsActivity.this, MainActivity.class);
-                startActivity(goBack);
-                
-            }
-        });
+           //Settings Button on click listener
+            Button button = (Button) findViewById(R.id.commit);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(SettingsActivity.this,
+                            "Settings Saved",
+                            Toast.LENGTH_SHORT).show();
 
-        Button account = (Button) findViewById(R.id.create);
-        account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent account = new Intent(SettingsActivity.this, AccountActivity.class);
-                startActivity(account);
+                    Intent goBack = new Intent(SettingsActivity.this, MainActivity.class);
+                    startActivity(goBack);
 
-            }
-        });
+                }
+            });
 
-        Button location = (Button) findViewById(R.id.location);
-        location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gps = new GPSTracker(SettingsActivity.this);
+            Button account = (Button) findViewById(R.id.create);
+            account.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent account = new Intent(SettingsActivity.this, AccountActivity.class);
+                    startActivity(account);
 
-                // check if GPS enabled
-                if(gps.canGetLocation()){
+                }
+            });
 
-                    double latitude = gps.getLatitude();
-                    double longitude = gps.getLongitude();
-                    Geocoder geocoder = new Geocoder(SettingsActivity.this, Locale.getDefault());
-                   try{
-                       //get city/state from lat and long
-                       List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                       String cityName = addresses.get(0).getAddressLine(0);
-                       String stateName = addresses.get(0).getAddressLine(1);
-                       String countryName = addresses.get(0).getAddressLine(2);
+            Button location = (Button) findViewById(R.id.location);
+            location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gps = new GPSTracker(SettingsActivity.this);
+                    final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-                      //set the text view to update
-                       TextView textView = (TextView) findViewById(R.id.textL);
-                       textView.setText(stateName);
+                    // check if GPS enabled
+                    if(gps.canGetLocation()){
 
-                       //toast notification
-                       Toast.makeText(getApplicationContext(), "Your Location is "+ stateName , Toast.LENGTH_SHORT).show();
+                        double latitude = gps.getLatitude();
+                        double longitude = gps.getLongitude();
+                        Geocoder geocoder = new Geocoder(SettingsActivity.this, Locale.getDefault());
+                       try{
+                           //get city/state from lat and long
+                           List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                           String cityName = addresses.get(0).getAddressLine(0);
+                           String stateName = addresses.get(0).getAddressLine(1);
+                           String countryName = addresses.get(0).getAddressLine(2);
 
-                      //send the data to back end
-                       /*
-                       List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-                       pairs.add(new BasicNameValuePair("location", stateName));
-                       post.setEntity(new UrlEncodedFormEntity(pairs));
-                       HttpResponse response = client.execute(post);   */
+                          //set the text view to update
+                           TextView textView = (TextView) findViewById(R.id.textL);
+                           textView.setText(stateName);
 
-                       try {
-                           enableStrictMode();
-                           JSONObject result = new JSONObject();
-                           result.put("location", stateName);
-                           StringEntity se = new StringEntity(result.toString());
-                           post.setEntity(se);
-                           HttpResponse httpresponse = client.execute(post);
-                       } catch (Exception e) {
-                           //throw new RuntimeException(e);
-                           Toast.makeText(getApplicationContext(), "cannot communicate with server" , Toast.LENGTH_SHORT).show();
-                           Log.e("MYAPP", "exception", e);
+                           //toast notification
+                           Toast.makeText(getApplicationContext(), "Your Location is "+ stateName , Toast.LENGTH_SHORT).show();
+
+                          //send the data to back end
+
+                           preferences.edit().putString("Location", stateName).commit();
+
+                       }catch(IOException ex) {
+                           ex.printStackTrace();
                        }
 
-                   }catch(IOException ex) {
-                       ex.printStackTrace();
-                   }
 
-
-                }else{
-                    // can't get location
-                    // GPS or Network is not enabled
-                    // Ask user to enable GPS/network in settings
-                    gps.showSettingsAlert();
+                    }else{
+                        // can't get location
+                        // GPS or Network is not enabled
+                        // Ask user to enable GPS/network in settings
+                        gps.showSettingsAlert();
+                    }
                 }
-            }
-        });
+            });
     }
 }
