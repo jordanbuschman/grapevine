@@ -1,6 +1,7 @@
 var mongoose              = require('mongoose');
 var Schema                = mongoose.Schema;
 
+
 var Post = new Schema({
 	_id			: {type: String, required: true },
 	_parent		: {type: Schema.Types.ObjectId, ref: 'Post', required: true},
