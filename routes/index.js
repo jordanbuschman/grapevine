@@ -55,14 +55,34 @@ router.post('/authenticate', passport.authenticate('local'), function(req, res) 
     }
 });
 
+router.post('/changeUsername', function(req, res) {
+    if (req.body.token == undefined || req.body.username == undefined) {
+        req.status(400).end("Bad request");
+    }
+    else {
+        jwt.verify(req.body.token, 'dontstealmygrapes', function(err, decoded) {
+            if (err) {
+                debug(err);
+                return res.status(400).end('you dun goofed');
+            }
+            if (decoded._id == undefined) {
+                return res.status(403).end('Forbidden: Invalid token'); 
+            else {
+                //TODO: validate here
+                res.status(200).json(decoded);
+            }
+        });
+    }
+});
+
 router.post('/location', function(rekt, res)
 {
     var loc = rekt.body.loc.replace(/['"]/g, '');
     var grape = rekt.body.grape;
     if(loc == undefined || grape == undefined)
     {
-            res.status(400);
-            return res.end("bad request gtfo");
+        res.status(400);
+        return res.end("bad request gtfo");
     }
     else
     {
@@ -99,7 +119,7 @@ router.post('/submit' , function(req, res)
             }
             else {
                 if (decoded._id == undefined) {
-                    res.status(400).end('invalid token');
+                    res.status(403).end('Forbidden: Invalid token');
                 }
                 var userID = decoded._id;
                 Post.create({ _location: loc, _grape: grape, _text: text, _userID: userID}, function(err)

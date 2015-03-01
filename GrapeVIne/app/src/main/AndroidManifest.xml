@@ -7,7 +7,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -25,7 +26,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AccountActivity"></activity>
+        <activity android:name=".AddActivity" android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".AuthenticateActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -63,6 +63,35 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         final int hubId = preferences.getInt("hubId", 1);
+        final boolean firstrun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("firstrun", true);
+
+
+        // Use the Builder class for convenient dialog construction
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Authentication");
+        builder.setMessage("This app authenticates users via phone number, would you like to authenticate now?")
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("firstrun", false).commit();
+                        Intent intent = new Intent(MainActivity.this, AuthenticateActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+        // Create the AlertDialog object and return it
+        if (firstrun) {
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+
+        }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -116,7 +145,7 @@ public class MainActivity extends ActionBarActivity
             JSONObject result = new JSONObject();
             String area = preferences.getString("Location", "null");
             if (area.equals("null")) {
-                //TODO: set alert box
+
                 // Use the Builder class for convenient dialog construction
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Location not found");
@@ -199,6 +228,10 @@ public class MainActivity extends ActionBarActivity
             startActivity(settingsIntent);
         }
 
+        if (id == R.id.action_add){
+            Intent addIntent = new Intent(MainActivity.this, AddActivity.class);
+            startActivity(addIntent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
