@@ -94,6 +94,46 @@ router.post('/user', function(rekt, res)
     }
 });
 
+router.post('/post', function(rekt, res)
+{
+    var id = rekt.body.id;
+    if(id == undefined)
+    {
+        res.status(400);
+        return res.end("bad request gtfo");
+    }
+    else
+    {
+        var time = Date.now() - 86400000 * 3; //3 days
+
+        Post.find({ "_timestamp" : { $gt: time }, _parent: id }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+        {
+            if (err) {
+                debug(err);
+                res.status(400).end(err);
+            }
+            Post.findOne({ _id: id }, function(err, parentPost) {
+                if (err) {
+                    debug(err);
+                    return res.status(400).end(err);
+                }
+                else if (parentPost == undefined)
+                    return res.status(400).end('Invalid post');
+                else {
+                    parentPost._views++;
+                    parentPost.save(function(err) {
+                        if (err) {
+                            debug(err);
+                            return res.status(400).end(err);
+                        }
+                        return res.json(posts);
+                    });
+                }
+            });
+        });
+    }
+});
+
 router.post('/location', function(rekt, res)
 {
     var loc = rekt.body.loc.replace(/["']/g,'');
