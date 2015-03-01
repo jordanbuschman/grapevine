@@ -67,6 +67,7 @@ router.post('/changeUsername', function(req, res) {
             }
             if (decoded._id == undefined) {
                 return res.status(403).end('Forbidden: Invalid token'); 
+            }
             else {
                 //TODO: validate here
                 res.status(200).json(decoded);
@@ -77,8 +78,8 @@ router.post('/changeUsername', function(req, res) {
 
 router.post('/location', function(rekt, res)
 {
-    var loc = rekt.body.loc;
-    var grape = rekt.body.grape;
+    var loc = rekt.body.loc.replace(/["']/g,'');
+    var grape = rekt.body.grape.replace(/["']/g,'');
     if(loc == undefined || grape == undefined)
     {
         res.status(400);
@@ -105,7 +106,7 @@ router.post('/submit' , function(req, res)
     var token = req.body.token;
 	var user = req.body.user;
 
-    if(text == undefined || grape == undefined || loc == undefined || token == undefined || user = undefined)
+    if(text == undefined || grape == undefined || loc == undefined || token == undefined || user == undefined)
     {
         res.status(400);
         return res.end("Could not retrieve text");
@@ -123,7 +124,7 @@ router.post('/submit' , function(req, res)
                     res.status(403).end('Forbidden: Invalid token');
                 }
                 var userID = decoded._id;
-                Post.create({ _location: loc, _grape: grape, _text: text, _userID: userID, _user: user}, function(err)
+                Post.create({ _location: loc, _grape: grape, _text: text, _userID: userID, _username: user}, function(err)
                 {
                     if (err)
                     {
