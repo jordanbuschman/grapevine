@@ -11,9 +11,9 @@
         android:id="@+id/editText"
         android:layout_weight="1"
         android:lines="10"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="63dp" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         android:id="@+id/spinner"
         android:entries="@array/grape_options"
         android:gravity="center"
-        android:layout_alignTop="@+id/editText"
+        android:layout_above="@+id/editText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -30,16 +30,9 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText3"
-        android:hint="enter a username (optional)"
         android:layout_below="@+id/editText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="61dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp" />
+
+
 </RelativeLayout>

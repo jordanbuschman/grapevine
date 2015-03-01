@@ -55,7 +55,8 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
     Context context = this;
     DefaultHttpClient client = new DefaultHttpClient();
-    HttpPost post = new HttpPost("http://getgrapes.org/location");
+    HttpPost post = new HttpPost("172.16.21.81:3000");
+   // HttpPost post = new HttpPost("http://getgrapes.org/location");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

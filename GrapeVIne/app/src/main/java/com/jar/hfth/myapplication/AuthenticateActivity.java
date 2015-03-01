@@ -51,6 +51,7 @@ public class AuthenticateActivity extends ActionBarActivity {
         final EditText number = (EditText) findViewById(R.id.editText1);
         final EditText password = (EditText) findViewById(R.id.editText2);
         final Button button = (Button) findViewById(R.id.button2);
+        final EditText name = (EditText) findViewById(R.id.username);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +87,21 @@ public class AuthenticateActivity extends ActionBarActivity {
                     setter.show();
 
                 }
+                //no user name specified
+                else if(name.getText().length() == 0){
+                    AlertDialog.Builder setter = new AlertDialog.Builder(context);
+                    setter.setTitle("Username error");
+                    setter.setMessage("Please enter a valid user name")
+                            .setPositiveButton("edit", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // Create the AlertDialog object and return it
+                    setter.show();
+
+                }
                 else {
                     //send to database
                     enableStrictMode();
@@ -99,6 +115,7 @@ public class AuthenticateActivity extends ActionBarActivity {
                         HttpResponse response = client.execute(post);
                         String t = EntityUtils.toString(response.getEntity());
                         preferences.edit().putString("Key", t).commit();
+                        preferences.edit().putString("User", name.getText().toString()).commit();
                         Intent intent = new Intent(AuthenticateActivity.this, MainActivity.class);
                         startActivity(intent);
 

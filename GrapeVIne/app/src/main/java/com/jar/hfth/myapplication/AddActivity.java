@@ -52,7 +52,7 @@ public class AddActivity extends ActionBarActivity{
 
         final Button button = (Button) findViewById(R.id.button);
         final EditText post = (EditText) findViewById(R.id.editText);
-        final EditText username = (EditText) findViewById(R.id.editText3);
+
 
         grapes = (Spinner) findViewById(R.id.spinner);
 
@@ -105,9 +105,6 @@ public class AddActivity extends ActionBarActivity{
 
                 //no phone number specified
                 //
-                 if(username.getText().length() == 0){
-                  username.setText("Anonymous");
-                }
 
                 //send to database
                 //
@@ -118,8 +115,9 @@ public class AddActivity extends ActionBarActivity{
                     List<NameValuePair> pairs = new ArrayList<NameValuePair>();
                     pairs.add(new BasicNameValuePair("text", post.getText().toString()));
                     pairs.add(new BasicNameValuePair("grape", Integer.toString(grapez) ));
-                    pairs.add(new BasicNameValuePair("loc", preferences.getString("Location","null") ));
+                    pairs.add(new BasicNameValuePair("loc", preferences.getString("Location", "null") ));
                     pairs.add(new BasicNameValuePair("token", preferences.getString("Key", "null")));
+                    pairs.add(new BasicNameValuePair("user", preferences.getString("User", "null")));
                     posting.setEntity(new UrlEncodedFormEntity(pairs));
                     HttpResponse response = client.execute(posting);
                  

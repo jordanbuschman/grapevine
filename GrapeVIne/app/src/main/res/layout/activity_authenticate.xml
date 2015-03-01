@@ -20,16 +20,28 @@
         android:ems="10"
         android:hint="Please enter a password"
         android:id="@+id/editText2"
-        android:layout_centerVertical="true"
+        android:layout_above="@+id/button2"
         android:layout_alignLeft="@+id/editText1"
-        android:layout_alignStart="@+id/editText1" />
+        android:layout_alignStart="@+id/editText1"
+        android:layout_marginBottom="95dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/button2"
-        android:layout_marginTop="89dp"
-        android:layout_below="@+id/editText2"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="65dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Please enter a user name"
+        android:ems="10"
+        android:id="@+id/username"
+        android:layout_below="@+id/editText1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp" />
 </RelativeLayout>
