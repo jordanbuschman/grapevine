@@ -44,8 +44,8 @@ router.post('/nuke', function(req, res) {
 });
 
 router.post('/authenticate', passport.authenticate('local'), function(req, res) {
-    if (req.user != undefined) {
-        var token = jwt.sign(req.user, 'dontstealmygrapes');
+    if (req.phone != undefined) {
+        var token = jwt.sign(req.phone, 'dontstealmygrapes');
         return res.json({ token: token });
     }
     else if (req.body.id != undefined) {
