@@ -194,6 +194,8 @@ public class MainActivity extends ActionBarActivity
                         post = new HttpPost("http://getgrapes.org/user");
                         pairs.add(new BasicNameValuePair("phone",mPhoneNumber ));
                     }
+                    else
+                        post = new HttpPost("http://getgrapes.org/location");
                     post.setEntity(new UrlEncodedFormEntity(pairs));
                     HttpResponse response = client.execute(post);
 
