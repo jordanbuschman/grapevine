@@ -1,12 +1,15 @@
-var express      = require('express');
-var engine       = require('ejs-locals');
-var path         = require('path');
-var logger       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var mongoose     = require('mongoose');
-var flash        = require('connect-flash');
-var debug        = require('debug')('grapevine:app.js');
+var express       = require('express');
+var passport      = require('passport');
+var engine        = require('ejs-locals');
+var path          = require('path');
+var logger        = require('morgan');
+var cookieParser  = require('cookie-parser');
+var bodyParser    = require('body-parser');
+var mongoose      = require('mongoose');
+var expressJwt    = require('express-jwt');
+var User          = require('./models/user');
+var jwt           = require('jsonwebtoken')
+var debug         = require('debug')('grapevine:app.js');
 
 var routes = require('./routes/index');
 
@@ -29,6 +32,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
+app.use(passport.initialize());
+// use static authenticate method of model in LocalStrategy
+passport.use(User.createStrategy());
+
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
@@ -38,8 +49,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-
-app.use(flash());
+//app.use('/restricted', expressJwt({ secret: 'dontstealmygrapes' }) );
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

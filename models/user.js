@@ -10,10 +10,12 @@ User.set('redisCache', true);
 
 User.plugin(passportLocalMongoose);
 
-User.path('phoneNumber').validate(function (username) {
+User.path('phoneNumber').validate(function (phoneNumber) {
+    if (phoneNumber == undefined)
+        return true;
+
     var regex = /^\d{10}$/
-    console.log(username);
-    return regex.test(username);
+    return regex.test(phoneNumber);
 }, 'Phone number must be in format 123-456-7890.')
 
 module.exports = mongoose.model('User', User);
