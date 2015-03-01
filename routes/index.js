@@ -4,6 +4,7 @@ var jwt      = require('jsonwebtoken');
 var debug    = require('debug')('grapevine:index.js');
 var User     = require('../models/user');
 var Post	 = require('../models/post');
+var mongoose = require('mongoose');
 
 var router = express.Router();
 
@@ -26,7 +27,7 @@ router.post('/register', function(req, res) {
         }
         debug ('Added user ' + newUser.phoneNumber + ' to users');
         var token = jwt.sign(newUser, 'dontstealmygrapes');
-        return res.json({ token: token });
+        return res.end(token);
     });
 });
 
@@ -37,8 +38,7 @@ router.post('/nuke', function(req, res) {
     }
 
     if (req.body.password == 'ahmedamer') {
-        User.find({}).remove().exec();
-        Post.find({}).remove().exec();
+        mongoose.connection.db.dropDatabase(function(err, done) {});
         res.status(200).end('Nuked!');
     }
     else
@@ -48,10 +48,7 @@ router.post('/nuke', function(req, res) {
 router.post('/authenticate', passport.authenticate('local'), function(req, res) {
     if (req.user != undefined) {
         var token = jwt.sign(req.user, 'dontstealmygrapes');
-        return res.json({ token: token });
-    }
-    else if (req.body.id != undefined) {
-        //TODO: Homeless person id authentication
+        return res.end(token);
     }
     else {
         return res.send(401, 'Invalid username or password');
