@@ -30,6 +30,7 @@
 
         </activity>
         <activity android:name=".AuthenticateActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".DetailActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

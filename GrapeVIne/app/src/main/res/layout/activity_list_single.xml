@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#b179ad4b">
+    >
 
     <TextView
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="username"
         android:textColor="#ff000000"
-        android:background="#b179ad4b"
+
         android:id="@+id/username" />
 
     <TextView
@@ -17,7 +17,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:textColor="#ff000000"
-        android:background="#b17533ad"
+
         android:id="@+id/title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -31,5 +31,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#ff000000"
-        android:background="#b179ad4b"/>
+       />
 </RelativeLayout>

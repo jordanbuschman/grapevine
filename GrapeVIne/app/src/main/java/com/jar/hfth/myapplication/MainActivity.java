@@ -142,8 +142,8 @@ public class MainActivity extends ActionBarActivity
 
         }
 
-        int getHub = preferences.getInt("hubId", 1);
-        Toast.makeText(getApplicationContext(), "value: " + getHub, Toast.LENGTH_SHORT).show();
+        final int getHub = preferences.getInt("hubId", 1);
+       // Toast.makeText(getApplicationContext(), "value: " + getHub, Toast.LENGTH_SHORT).show();
 
         try {
             enableStrictMode();
@@ -190,6 +190,8 @@ public class MainActivity extends ActionBarActivity
 
                     JSONArray info = new JSONArray(t);
                     final List<Posts> topic = new ArrayList<>();
+
+                  //  Toast.makeText(getApplicationContext(), "" + info.length(), Toast.LENGTH_LONG).show();
                     for (int i = 0; i < info.length(); i++)
                     {
                         //get info from JSON objects
@@ -200,11 +202,14 @@ public class MainActivity extends ActionBarActivity
                         String phone = object.getString("_phoneNumber");
                         String user = object.getString("_username");
                         String title = object.getString("_title");
+                        int groove = object.getInt("_grove");
+                        String id = object.getString("_id");
 
                         //put data into listview
                         //Posts(long date, String text, int views, String phone, String user)
-                        topic.add(new Posts(date, text, views, phone ,user, title));
+                        topic.add(new Posts(date, text, views, phone ,user, title, groove, id));
                     }
+
                     ListView listView = (ListView) findViewById(R.id.listView);
                     listView.setAdapter(new PostAdapter(this, R.layout.activity_list_single, topic));
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -218,6 +223,8 @@ public class MainActivity extends ActionBarActivity
                             intent.putExtra("phone", post.getPhone());
                             intent.putExtra("user", post.getUser());
                             intent.putExtra("title", post.getTitle());
+                            intent.putExtra("grove", post.getGrove());
+                            intent.putExtra("id", post.getId());
                             startActivity(intent);
 
                         }
