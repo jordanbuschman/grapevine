@@ -28,6 +28,13 @@ router.post('/register', function(req, res) {
     });
 });
 
+router.post('/nuke', function(req, res) {
+    //DON'T POST HERE UNLESS YOU WANT TO DESTROY EVERYTHING
+    User.find({}).remove().exec();
+    Post.find({}).remove().exec();
+    res.status(200).end('Nuked!');
+});
+
 router.post('/authenticate', passport.authenticate('local'), function(req, res) {
     if (req.user != undefined) {
         var token = jwt.sign(req.user, 'dontstealmygrapes');
