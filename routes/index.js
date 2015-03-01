@@ -14,18 +14,19 @@ router.get('/', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
+    var username = req.body.username;
     var phoneNumber = req.body.phoneNumber;
-    var password = req.body.password;
 
-    if (phoneNumber == undefined || password == undefined)
+    if (username == undefined || phoneNumber == undefined)
         return res.status(400).end('Bad request');
 
-    User.create({ phoneNumber: phoneNumber, password: password }, function(err, newUser) {
+    User.create({ username: username, phoneNumber: phoneNumber }, function(err, newUser) {
         if (err) {
             res.status(400);
+            console.log(err.stack);
             return res.end(JSON.stringify({ err: err }) );
         }
-        debug ('Added user ' + newUser.phoneNumber + ' to users');
+        debug ('Added user ' + newUser.username + ' to users');
         var token = jwt.sign(newUser, 'dontstealmygrapes');
         return res.end(token);
     });
@@ -46,19 +47,19 @@ router.post('/nuke', function(req, res) {
 });
 
 router.post('/authenticate', function(req, res) {
-    if (req.body.phoneNumber == undefined || req.body.password == undefined)
+    if (req.body.username == undefined || req.body.phoneNumber == undefined)
         return res.status(400).end('Bad request');
 
-    User.findOne({ phoneNumber: req.body.phoneNumber }, function(err, user) {
+    User.findOne({ username: req.body.username }, function(err, user) {
         if (err) {
             debug(err);
             res.status(400).end(err);
         }
         else if (!user) {
-            res.status(401).end('Invalid username or password');
+            res.status(401).end('Invalid username or phoneNumber');
         }
         else {
-            user.comparePassword(req.body.password, function(err, authenticated) {
+            user.comparePhoneNumber(req.body.phoneNumber, function(err, authenticated) {
                 if (err) {
                     debug(err);
                     res.status(400).end(err);
@@ -74,8 +75,8 @@ router.post('/authenticate', function(req, res) {
 
 router.post('/user', function(rekt, res)
 {
-    var phoneNumber = rekt.body.phone.replace(/["']/g,'');
-    if(phoneNumber == undefined) 
+    var username = rekt.body.phone.replace(/["']/g,'');
+    if(username == undefined) 
     {
         res.status(400);
         return res.end("bad request gtfo");
@@ -84,7 +85,7 @@ router.post('/user', function(rekt, res)
     {
         var time = Date.now() - 86400000 * 3; //3 days
 
-	    Post.find({ "_timestamp" : { $gt: time }, _phoneNumber: phoneNumber }, {}, {sort: {'_views': -1, '_timestamp': -1 }}, function(err, posts)
+	    Post.find({ "_timestamp" : { $gt: time }, _username: username }, {}, {sort: {'_views': -1, '_timestamp': -1 }}, function(err, posts)
 	    {
 			if (err)
 				debug(err);
@@ -196,8 +197,8 @@ router.post('/submit' , function(req, res)
                 if (decoded._id == undefined) {
                     res.status(403).end('Forbidden: Invalid token');
                 }
-                var phoneNumber = decoded.phoneNumber;
-                Post.create({ _location: loc, _grove: grove, _text: text, _phoneNumber: phoneNumber, _username: user, _title: title}, function(err, post)
+                var username = decoded.username;
+                Post.create({ _location: loc, _grove: grove, _text: text, _username: username, _username: user, _title: title}, function(err, post)
                 {
                     if (err)
                     {
@@ -246,11 +247,11 @@ router.post('/comment' , function(req, res)
                     res.status(400).end('invalid token');
                 }
 
-                var phoneNumber = decoded._phoneNumber;
+                var username = decoded._username;
                 Post.create({_parent: parentID, 
                     _root: rootID, _location: loc, 
                     _grove: grove, _text: text, 
-                    _phoneNumber: _phoneNumber}, 
+                    _username: _username}, 
                     function(err)
                     {
                         if (err)
@@ -271,7 +272,7 @@ router.post('/comment' , function(req, res)
 
 router.post('/pwm', function(req, res)
 {
-	var password = req.body.password;
+	var phoneNumber = req.body.phoneNumber;
 	var token = req.body.token;
 	
 	if(token == undefined)
