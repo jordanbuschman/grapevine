@@ -14,7 +14,6 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="grape_options">
-        <item>All Hubs</item>
         <item>Food</item>
         <item>Shelter</item>
         <item>Favors</item>

@@ -40,13 +40,28 @@ public class PostAdapter extends ArrayAdapter<Posts> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
 
-        View row = inflater.inflate(R.layout.activity_list_single, null);
-        TextView date = (TextView)row.findViewById(R.id.date);
-        date.setText(post.get(position).getDate() + "");
-        TextView user = (TextView)row.findViewById(R.id.username);
-        user.setText(post.get(position).getUser() + "");
-        TextView title = (TextView)row.findViewById(R.id.title);
+        View row = inflater.inflate(R.layout.layout_single, null);
+     //   TextView date = (TextView)row.findViewById(R.id.date);
+     //   date.setText(post.get(position).getDate() + "");
+    //    TextView user = (TextView)row.findViewById(R.id.username);
+     //   user.setText(post.get(position).getUser() + "");
+        TextView title = (TextView)row.findViewById(R.id.textView);
         title.setText(post.get(position).getTitle() + "");
+        ImageView image = (ImageView)row.findViewById(R.id.imageView);
+
+        switch (post.get(position).getGrove()){
+
+            case 2:
+                image.setImageResource(R.drawable.food);
+                break;
+            case 3:
+                image.setImageResource(R.drawable.tent);
+                break;
+            default:
+                image.setImageResource(R.drawable.reciprocity);
+                break;
+        }
+
 
 
 
