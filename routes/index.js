@@ -3,6 +3,7 @@ var passport = require('passport');
 var jwt      = require('jsonwebtoken');
 var debug    = require('debug')('grapevine:index.js');
 var User     = require('../models/user');
+var Post	 = require('../models/post');
 
 var router = express.Router();
 
@@ -39,6 +40,28 @@ router.post('/authenticate', passport.authenticate('local'), function(req, res) 
         return res.send(401, 'Invalid username or password');
     }
 });
+
+router.post('/location', function(rekt, res)
+{
+	var location = rekt.body.location;
+	if(location == undefined)
+	{
+            res.status(400);
+            return res.end("bad request gtfo");
+	}
+	else
+	{
+		var time = Date.now();
+
+		Post.find({"_timestamp" : { $gt: time }, _parent: undefined }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+		{
+			if (err)
+				debug(err);
+			return res.json({posts:posts});
+		});
+	}
+});
+
 
 //see any posts
 //see comments
