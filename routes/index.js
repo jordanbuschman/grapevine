@@ -28,9 +28,12 @@ router.post('/register', function(req, res) {
 });
 
 router.post('/authenticate', passport.authenticate('local'), function(req, res) {
-    if (req.user) {
+    if (req.user != undefined) {
         var token = jwt.sign(req.user, 'dontstealmygrapes');
         return res.json({ token: token });
+    }
+    else if (req.body.id != undefined) {
+        //TODO: Homeless person id authentication
     }
     else {
         return res.send(401, 'Invalid username or password');
