@@ -44,9 +44,9 @@ public class PostAdapter extends ArrayAdapter<Posts> {
         TextView date = (TextView)row.findViewById(R.id.date);
         date.setText(post.get(position).getDate() + "");
         TextView user = (TextView)row.findViewById(R.id.username);
-        date.setText(post.get(position).getUser() + "");
+        user.setText(post.get(position).getUser() + "");
         TextView title = (TextView)row.findViewById(R.id.title);
-        date.setText(post.get(position).getTitle() + "");
+        title.setText(post.get(position).getTitle() + "");
 
 
 

@@ -186,6 +186,8 @@ public class MainActivity extends ActionBarActivity
 
                     //receive data
                     String t = EntityUtils.toString(response.getEntity());
+                    //Toast.makeText(getApplicationContext(), "" + t, Toast.LENGTH_LONG).show();
+
                     JSONArray info = new JSONArray(t);
                     final List<Posts> topic = new ArrayList<>();
                     for (int i = 0; i < info.length(); i++)
