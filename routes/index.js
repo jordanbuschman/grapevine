@@ -55,6 +55,23 @@ router.post('/authenticate', passport.authenticate('local'), function(req, res) 
     }
 });
 
+router.post('/changeUsername', function(req, res) {
+    if (req.body.token == undefined || req.body.username == undefined) {
+        req.status(400).end("Bad request");
+    }
+    else {
+        jwt.verify(req.body.token, 'dontstealmygrapes', function(err, decoded) {
+            if (err) {
+                debug(err);
+                return res.status(400).end('you dun goofed');
+            }
+            else {
+                res.status(200).JSON(decoded);
+            }
+        });
+    }
+});
+
 router.post('/location', function(rekt, res)
 {
     var loc = rekt.body.loc;
@@ -99,7 +116,7 @@ router.post('/submit' , function(req, res)
             }
             else {
                 if (decoded._id == undefined) {
-                    res.status(400).end('invalid token');
+                    res.status(403).end('Forbidden: Invalid token');
                 }
                 var userID = decoded._id;
                 Post.create({ _location: loc, _grape: grape, _text: text, _userID: userID}, function(err)
