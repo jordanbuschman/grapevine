@@ -75,17 +75,17 @@ router.post('/authenticate', function(req, res) {
 router.post('/location', function(rekt, res)
 {
     var loc = rekt.body.loc.replace(/["']/g,'');
-    var grape = rekt.body.grape.replace(/["']/g,'');
-    if(loc == undefined || grape == undefined)
+    var grove = rekt.body.grove.replace(/["']/g,'');
+    if(loc == undefined || grove == undefined)
     {
         res.status(400);
         return res.end("bad request gtfo");
     }
     else
     {
-        var time = Date.now() - 86400000;
+        var time = Date.now() - 86400000 * 7; //1 week
 
-        Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grape:grape }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
+        Post.find({ "_timestamp" : { $gt: time }, _parent: undefined, _location: loc, _grove:grove }, {}, {sort: {'_timestamp' : -1 }}, function(err, posts)
         {
             if (err)
                 debug(err);
@@ -97,12 +97,12 @@ router.post('/location', function(rekt, res)
 router.post('/submit' , function(req, res)
 {
     var text = req.body.text;
-    var grape = req.body.grape;
+    var grove = req.body.grove;
     var loc = req.body.loc;
     var token = req.body.token;
 	var user = req.body.user;
 
-    if(text == undefined || grape == undefined || loc == undefined || token == undefined || user == undefined)
+    if(text == undefined || grove == undefined || loc == undefined || token == undefined || user == undefined)
     {
         res.status(400);
         return res.end("Could not retrieve text");
@@ -121,7 +121,7 @@ router.post('/submit' , function(req, res)
                 }
                 console.log(decoded);
                 var phoneNumber = decoded.phoneNumber;
-                Post.create({ _location: loc, _grape: grape, _text: text, _phoneNumber: phoneNumber, _username: user}, function(err, post)
+                Post.create({ _location: loc, _grove: grove, _text: text, _phoneNumber: phoneNumber, _username: user}, function(err, post)
                 {
                     if (err)
                     {
@@ -140,14 +140,14 @@ router.post('/submit' , function(req, res)
 router.post('/comment' , function(req, res)
 {
     var text = req.body.text;
-    var grape = req.body.grape;
+    var grove = req.body.grove;
     var loc = req.body.loc;
     var parentID = req.body.parentID;
     var rootID = req.body.rootID;
     var token = req.body.token;
 
     if(text == undefined 
-        || grape     == undefined 
+        || grove     == undefined 
         || loc       == undefined 
         || token     == undefined 
         || parentID  == undefined
@@ -174,7 +174,7 @@ router.post('/comment' , function(req, res)
                 var phoneNumber = decoded._phoneNumber;
                 Post.create({_parent: parentID, 
                     _root: rootID, _location: loc, 
-                    _grape: grape, _text: text, 
+                    _grove: grove, _text: text, 
                     _phoneNumber: _phoneNumber}, 
                     function(err)
                     {
